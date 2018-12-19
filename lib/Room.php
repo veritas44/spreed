@@ -580,9 +580,10 @@ class Room {
 	/**
 	 * @param Participant $participant
 	 */
-	public function removeParticipantBySession(Participant $participant) {
+	public function removeParticipantBySession(Participant $participant, string $reason) {
 		$this->dispatcher->dispatch(self::class . '::preRemoveBySession', new GenericEvent($this, [
 			'participant' => $participant,
+			'reason' => $reason,
 		]));
 
 		$query = $this->db->getQueryBuilder();
@@ -593,6 +594,7 @@ class Room {
 
 		$this->dispatcher->dispatch(self::class . '::postRemoveBySession', new GenericEvent($this, [
 			'participant' => $participant,
+			'reason' => $reason,
 		]));
 	}
 

@@ -45,6 +45,9 @@ class Participant {
 	const NOTIFY_MENTION = 2;
 	const NOTIFY_NEVER = 3;
 
+	const REASON_REMOVE = 'remove';
+	const REASON_LEAVE = 'leave';
+
 	/** @var IDBConnection */
 	protected $db;
 	/** @var Room */

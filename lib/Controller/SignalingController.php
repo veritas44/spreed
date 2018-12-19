@@ -27,6 +27,7 @@ use OCA\Spreed\Config;
 use OCA\Spreed\Exceptions\RoomNotFoundException;
 use OCA\Spreed\Exceptions\ParticipantNotFoundException;
 use OCA\Spreed\Manager;
+use OCA\Spreed\Participant;
 use OCA\Spreed\Room;
 use OCA\Spreed\Signaling\Messages;
 use OCA\Spreed\TalkSession;
@@ -390,7 +391,7 @@ class SignalingController extends OCSController {
 			}
 		}
 
-		if (empty($participant)) {
+		if (!$participant instanceof Participant) {
 			// User was not invited to the room, check for access to public room.
 			try {
 				$participant = $room->getParticipantBySession($sessionId);
@@ -413,8 +414,8 @@ class SignalingController extends OCSController {
 		} else if ($action === 'leave') {
 			if (!empty($userId)) {
 				$room->leaveRoom($userId);
-			} else if (!empty($participant)) {
-				$room->removeParticipantBySession($participant);
+			} else if ($participant instanceof Participant) {
+				$room->removeParticipantBySession($participant, Participant::REASON_LEAVE);
 			}
 		}
 

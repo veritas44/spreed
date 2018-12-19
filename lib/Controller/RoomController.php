@@ -51,6 +51,7 @@ use OCP\IGroupManager;
 use OCP\Mail\IMailer;
 
 class RoomController extends OCSController {
+
 	/** @var string */
 	private $userId;
 	/** @var TalkSession */
@@ -978,7 +979,7 @@ class RoomController extends OCSController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$room->removeParticipantBySession($targetParticipant);
+		$room->removeParticipantBySession($targetParticipant, Participant::REASON_REMOVE);
 		return new DataResponse([]);
 	}
 
@@ -1123,7 +1124,7 @@ class RoomController extends OCSController {
 
 			if ($this->userId === null) {
 				$participant = $room->getParticipantBySession($sessionId);
-				$room->removeParticipantBySession($participant);
+				$room->removeParticipantBySession($participant, Participant::REASON_LEAVE);
 			} else {
 				$participant = $room->getParticipant($this->userId);
 				$room->leaveRoom($participant->getUser());
