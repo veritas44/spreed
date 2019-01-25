@@ -386,12 +386,10 @@
 			}
 
 			if (inCall) {
-				$('#video-speaking').show();
 				$('#videos').show();
 				$('#screens').show();
 				$('#emptycontent').hide();
 			} else {
-				$('#video-speaking').hide();
 				$('#videos').hide();
 				$('#screens').hide();
 				$('#emptycontent').show();
@@ -551,7 +549,6 @@
 				this._chatView.$el.detach();
 				this._chatViewInMainView = false;
 
-				$('#video-speaking').hide();
 				$('#videos').hide();
 				$('#screens').hide();
 				$('#emptycontent').show();
