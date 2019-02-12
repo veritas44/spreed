@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /**
  *
  * @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
@@ -86,21 +86,6 @@ class ChatController extends OCSController {
 	/** @var IL10N */
 	private $l;
 
-	/**
-	 * @param string $appName
-	 * @param string $UserId
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param TalkSession $session
-	 * @param Manager $manager
-	 * @param ChatManager $chatManager
-	 * @param GuestManager $guestManager
-	 * @param MessageParser $messageParser
-	 * @param IManager $autoCompleteManager
-	 * @param SearchPlugin $searchPlugin
-	 * @param ISearchResult $searchResult
-	 * @param IL10N $l
-	 */
 	public function __construct(string $appName,
 								$UserId,
 								IRequest $request,
@@ -276,7 +261,7 @@ class ChatController extends OCSController {
 	 *         'actorDisplayName', 'timestamp' (in seconds and UTC timezone) and
 	 *         'message'.
 	 */
-	public function receiveMessages($token, $lookIntoFuture, $limit = 100, $lastKnownMessageId = 0, $timeout = 30) {
+	public function receiveMessages(string $token, int $lookIntoFuture, int $limit = 100, int $lastKnownMessageId = 0, int $timeout = 30): DataResponse {
 		$room = $this->getRoom($token);
 		if ($room === null) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -319,7 +304,7 @@ class ChatController extends OCSController {
 				$displayName = $guestNames[$comment->getActorId()];
 			}
 
-			list($message, $messageParameters) = $this->messageParser->parseMessage($room, $comment, $this->l, $currentUser);
+			[$message, $messageParameters] = $this->messageParser->parseMessage($room, $comment, $this->l, $currentUser);
 
 			return [
 				'id' => (int) $comment->getId(),
@@ -387,8 +372,7 @@ class ChatController extends OCSController {
 		return new DataResponse($results);
 	}
 
-
-	protected function prepareResultArray(array $results) {
+	protected function prepareResultArray(array $results): array {
 		$output = [];
 		foreach ($results as $type => $subResult) {
 			foreach ($subResult as $result) {
