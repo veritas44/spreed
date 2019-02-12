@@ -350,7 +350,7 @@ class ChatController extends OCSController {
 	 * @param int $limit
 	 * @return DataResponse
 	 */
-	public function mentions($token, $search, $limit = 20) {
+	public function mentions(string $token, string $search, int $limit = 20): DataResponse {
 		$room = $this->getRoom($token);
 		if ($room === null) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -361,7 +361,7 @@ class ChatController extends OCSController {
 			'itemId' => $room->getId(),
 			'room' => $room,
 		]);
-		$this->searchPlugin->search((string) $search, $limit, 0, $this->searchResult);
+		$this->searchPlugin->search($search, $limit, 0, $this->searchResult);
 
 		$results = $this->searchResult->asArray();
 		$exactMatches = $results['exact'];
@@ -375,6 +375,15 @@ class ChatController extends OCSController {
 		]);
 
 		$results = $this->prepareResultArray($results);
+
+		if ($search === '' || strpos('all', $search) !== false) {
+			array_unshift($results, [
+				'id' => 'all',
+				'label' => $this->l->t('Everyone'),
+				'source' => 'groups',
+			]);
+		}
+
 		return new DataResponse($results);
 	}
 
