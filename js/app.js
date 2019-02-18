@@ -578,13 +578,15 @@
 				OC.Util.History.replaceState({}, OC.generateUrl('/apps/spreed'));
 			});
 
-			this._mediaControlsView = new OCA.SpreedMe.Views.MediaControlsView({
+			this._localVideoView = new OCA.Talk.Views.LocalVideoView({
 				app: this,
 				webrtc: OCA.SpreedMe.webrtc,
 				sharedScreens: OCA.SpreedMe.sharedScreens,
 			});
-			this._mediaControlsView.render();
-			$('#localVideoContainer .nameIndicator').replaceWith(this._mediaControlsView.$el);
+			this._localVideoView.$el.addClass('hidden');
+			$('#videos').append(this._localVideoView.$el);
+
+			this._mediaControlsView = this._localVideoView._mediaControlsView;
 
 			$(document).on('click', this.onDocumentClick);
 			OC.Util.History.addOnPopStateHandler(_.bind(this._onPopState, this));
