@@ -715,7 +715,7 @@
 			}
 
 			if (configuration.video !== false) {
-				this._mediaControlsView.hasVideo();
+				this._mediaControlsView.setVideoAvailable(true);
 
 				if (!this._mediaControlsView.videoEnabled) {
 					this.disableVideo();
@@ -724,7 +724,7 @@
 				}
 			} else {
 				this.disableVideo();
-				this._mediaControlsView.hasNoVideo();
+				this._mediaControlsView.setVideoAvailable(false);
 			}
 		},
 		enableFullscreen: function() {
