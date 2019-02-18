@@ -777,6 +777,13 @@ var spreedPeerConnectionTable = [];
 					return;
 				}
 
+				var screenView = OCA.SpreedMe.sharedScreens.screenViews[id];
+				if (screenView) {
+					screenView.$el.remove();
+
+					delete OCA.SpreedMe.sharedScreens.screenViews[id];
+				}
+
 				delete spreedListofSharedScreens[id];
 
 				var videoView = OCA.SpreedMe.videos.videoViews[id];
@@ -1060,13 +1067,6 @@ var spreedPeerConnectionTable = [];
 						videoView.setVideoElement(null);
 					}
 				} else if (peer.type === 'screen') {
-					var screenView = OCA.SpreedMe.sharedScreens.screenViews[peer.id];
-					if (screenView) {
-						screenView.$el.remove();
-
-						delete OCA.SpreedMe.sharedScreens.screenViews[peer.id];
-					}
-
 					OCA.SpreedMe.sharedScreens.remove(peer.id);
 				}
 			} else if (video.id === 'localScreen') {
@@ -1074,13 +1074,6 @@ var spreedPeerConnectionTable = [];
 				// the generic "videoRemoved" API, but the stream must be
 				// handled differently.
 				OCA.SpreedMe.webrtc.emit('localScreenStopped');
-
-				var screenView = OCA.SpreedMe.sharedScreens.screenViews[OCA.SpreedMe.webrtc.connection.getSessionid()];
-				if (screenView) {
-					screenView.$el.remove();
-
-					delete OCA.SpreedMe.sharedScreens.screenViews[OCA.SpreedMe.webrtc.connection.getSessionid()];
-				}
 
 				OCA.SpreedMe.sharedScreens.remove(OCA.SpreedMe.webrtc.connection.getSessionid());
 			}
