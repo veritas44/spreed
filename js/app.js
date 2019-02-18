@@ -759,7 +759,7 @@
 			this.fullscreenDisabled = true;
 		},
 		enableVideo: function() {
-			if (!this._mediaControlsView.enableVideo()) {
+			if (!this._mediaControlsView.setVideoEnabled(true)) {
 				return;
 			}
 
@@ -770,7 +770,7 @@
 			localVideo.show();
 		},
 		disableVideo: function() {
-			this._mediaControlsView.disableVideo();
+			this._mediaControlsView.setVideoEnabled(false);
 
 			// Always hide the video, even if "disableVideo" returned "false".
 			var avatarContainer = this._mediaControlsView.$el.closest('.videoView').find('.avatar-container');
