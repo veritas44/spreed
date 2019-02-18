@@ -758,19 +758,21 @@
 
 			this.fullscreenDisabled = true;
 		},
-		enableVideoUI: function() {
+		enableVideo: function() {
+			if (!this._mediaControlsView.enableVideo()) {
+				return;
+			}
+
 			var avatarContainer = this._mediaControlsView.$el.closest('.videoView').find('.avatar-container');
 			var localVideo = this._mediaControlsView.$el.closest('.videoView').find('#localVideo');
 
 			avatarContainer.hide();
 			localVideo.show();
 		},
-		enableVideo: function() {
-			if (this._mediaControlsView.enableVideo()) {
-				this.enableVideoUI();
-			}
-		},
-		hideVideo: function() {
+		disableVideo: function() {
+			this._mediaControlsView.disableVideo();
+
+			// Always hide the video, even if "disableVideo" returned "false".
 			var avatarContainer = this._mediaControlsView.$el.closest('.videoView').find('.avatar-container');
 			var localVideo = this._mediaControlsView.$el.closest('.videoView').find('#localVideo');
 
@@ -790,11 +792,6 @@
 			avatarContainer.removeClass('hidden');
 			avatarContainer.show();
 			localVideo.hide();
-		},
-		disableVideo: function() {
-			this._mediaControlsView.disableVideo();
-			// Always hide the video, even if "disableVideo" returned "false".
-			this.hideVideo();
 		},
 		// Called from webrtc.js
 		disableScreensharingButton: function() {
