@@ -190,7 +190,7 @@
 			if (configuration.video !== false) {
 				this._mediaControlsView.hasVideo();
 
-				if (this._mediaControlsView.videoDisabled) {
+				if (!this._mediaControlsView.videoEnabled) {
 					this.disableVideo();
 				} else {
 					this.enableVideo();
