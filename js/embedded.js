@@ -175,7 +175,7 @@
 		},
 		initAudioVideoSettings: function(configuration) {
 			if (configuration.audio !== false) {
-				this._mediaControlsView.hasAudio();
+				this._mediaControlsView.setAudioAvailable(true);
 
 				if (!this._mediaControlsView.audioEnabled) {
 					this._mediaControlsView.setAudioEnabled(false);
@@ -184,7 +184,7 @@
 				}
 			} else {
 				this._mediaControlsView.setAudioEnabled(false);
-				this._mediaControlsView.hasNoAudio();
+				this._mediaControlsView.setAudioAvailable(false);
 			}
 
 			if (configuration.video !== false) {
